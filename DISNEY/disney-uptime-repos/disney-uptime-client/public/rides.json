@@ -1,0 +1,53 @@
+{
+  "rides": [
+    {
+      "id": "space",
+      "name": "Space Mountain",
+      "uptime": 99.4,
+      "isUp": true,
+      "x": 0.62,
+      "y": 0.23
+    },
+    {
+      "id": "pirates",
+      "name": "Pirates of the Caribbean",
+      "uptime": 97.1,
+      "isUp": true,
+      "x": 0.32,
+      "y": 0.58
+    },
+    {
+      "id": "haunted",
+      "name": "Haunted Mansion",
+      "uptime": 94.2,
+      "isUp": false,
+      "x": 0.41,
+      "y": 0.35
+    },
+    {
+      "id": "tron",
+      "name": "TRON Lightcycle Run",
+      "uptime": 92.0,
+      "isUp": true,
+      "x": 0.74,
+      "y": 0.28
+    },
+    {
+      "id": "big-thunder",
+      "name": "Big Thunder Mountain Railroad",
+      "uptime": 98.5,
+      "isUp": true,
+      "x": 0.445,
+      "y": 0.572
+    },
+
+    {
+      "id": "splash-river",
+      "name": "Splash River Adventure",
+      "uptime": 93.8,
+      "isUp": true,
+      "x": 0.28,
+      "y": 0.72
+    }
+  ]
+}

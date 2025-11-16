@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Admin — Disney Uptime</title>
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;padding:18px;background:#07101a;color:#e6eef8}
+    table{width:100%;border-collapse:collapse}
+    td,th{padding:8px;border-bottom:1px solid rgba(255,255,255,0.03)}
+    input{padding:6px;border-radius:6px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit}
+  </style>
+</head>
+<body>
+  <h1>Admin — Control Rides</h1>
+  <p>Toggle ride up/down or set uptime. Enter Admin Key (or use Basic auth in browser).</p>
+
+  <div style="margin-bottom:12px">
+    <label>Admin Key: <input id="adminKey" placeholder="x-admin-key" style="width:320px" /></label>
+    <button id="saveKey">Save</button>
+    <button id="clearKey">Clear</button>
+  </div>
+
+  <div id="list">Loading...</div>
+
+  <script>
+    const keyInput = document.getElementById('adminKey');
+    const saveBtn = document.getElementById('saveKey');
+    const clearBtn = document.getElementById('clearKey');
+
+    function getAdminKey() { return localStorage.getItem('adminKey') || ''; }
+    function setAdminKey(v) { if (v) localStorage.setItem('adminKey', v); else localStorage.removeItem('adminKey'); }
+    keyInput.value = getAdminKey();
+
+    saveBtn.addEventListener('click', ()=> { setAdminKey(keyInput.value.trim()); alert('Saved'); fetchList(); });
+    clearBtn.addEventListener('click', ()=> { setAdminKey(''); keyInput.value=''; fetchList(); });
+
+    async function fetchList(){
+      const res = await fetch('/api/rides'); const data = await res.json();
+      const rows = data.rides.map(r=>`<tr>
+        <td>${r.name}</td>
+        <td>${r.uptime.toFixed(1)}%</td>
+        <td>${r.isUp? 'UP': 'DOWN'}</td>
+        <td><button onclick="toggle('${r.id}')">Toggle</button></td>
+        <td><button onclick="history('${r.id}')">History</button></td>
+      </tr>`).join('');
+      document.getElementById('list').innerHTML = `<table><thead><tr><th>Ride</th><th>Uptime</th><th>State</th><th>Toggle</th><th>History</th></tr></thead><tbody>${rows}</tbody></table>`;
+    }
+
+    async function fetchWithKey(path, opts = {}) {
+      const headers = opts.headers || {};
+      const key = getAdminKey();
+      if (key) headers['x-admin-key'] = key;
+      opts.headers = headers;
+      return fetch(path, opts);
+    }
+
+    async function toggle(id){ await fetchWithKey('/api/admin/toggle/'+id, { method:'POST' }); fetchList(); }
+    async function history(id){ const r=await fetchWithKey('/api/admin/history/'+id).then(r=>r.json()); alert(JSON.stringify(r.history, null, 2)); }
+
+    fetchList();
+    // refresh on WS updates
+    const socket = new WebSocket((location.protocol==='https:'?'wss:':'ws:')+'//'+location.host);
+    socket.addEventListener('message', ()=> fetchList());
+  </script>
+</body>
+</html>

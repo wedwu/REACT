@@ -1,0 +1,13 @@
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  font-family: Inter, system-ui, sans-serif;
+  background: #07101a;
+  color: #e6eef8;
+}
+
+.app {
+  padding: 20px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
