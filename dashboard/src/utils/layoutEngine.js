@@ -1,28 +1,62 @@
 // src/utils/layoutEngine.js
 
+// src/utils/layoutEngine.js
+
 export function calculateLayout(config, canvasWidth) {
-  const maxBoxes = Math.max(...config.columns.map(c => c.boxes.length));
-  const canvasHeight = maxBoxes * (config.baseBoxHeight + config.boxMargin * 2);
-  const colWidth = canvasWidth / config.columns.length;
+  if (!config.devices || config.devices.length === 0) {
+    return {
+      boxMap: {},
+      boxes: [],
+      canvasHeight: 0,
+      colWidth: canvasWidth
+    };
+  }
+
+  // Find unique columns
+  const uniqueColumns = Array.from(
+    new Set(config.devices.map(d => d.column))
+  );
+
+  const columnCount = uniqueColumns.length;
+
+  // Group devices by column
+  const columns = {};
+  config.devices.forEach(device => {
+    if (!columns[device.column]) columns[device.column] = [];
+    columns[device.column].push(device);
+  });
+
+  const maxBoxes = Math.max(
+    ...Object.values(columns).map(col => col.length)
+  );
+
+  const canvasHeight =
+    maxBoxes * (config.baseBoxHeight + config.boxMargin * 2);
+
+  const colWidth = canvasWidth / columnCount;
 
   const boxMap = {};
   const boxes = [];
 
-  for (let colIndex = 0; colIndex < config.columns.length; colIndex++) {
-    const column = config.columns[colIndex];
-    const colBoxes = column.boxes;
+  // Build box positions
+  uniqueColumns.forEach(colIndex => {
+    const colBoxes = columns[colIndex];
     const boxHeight = canvasHeight / maxBoxes;
 
-    colBoxes.forEach((box, i) => {
+    colBoxes.forEach((device, i) => {
       const x = colWidth * colIndex + config.boxMargin;
 
       let y;
+
+      // Old special treatment for left column
       if (colIndex === 0) {
         if (i === 0) {
           y = config.boxMargin;
         } else {
           const indexFromBottom = colBoxes.length - i;
-          const startBottom = canvasHeight - boxHeight + config.boxMargin;
+          const startBottom =
+            canvasHeight - boxHeight + config.boxMargin;
+
           y = startBottom - (indexFromBottom - 1) * boxHeight;
         }
       } else {
@@ -33,26 +67,90 @@ export function calculateLayout(config, canvasWidth) {
       const h = boxHeight - config.boxMargin * 2;
 
       const boxData = {
-        id: box.id,
-        status: box.status,
-        layoutVariant: box.layoutVariant || "1x1",
+        id: device.id,
+        status: device.status,
+        layoutVariant: device.layoutVariant || "1x1",
         x,
         y,
         w,
         h,
         colIndex,
         index: i,
-        deviceType: box.deviceType,
-        name: box.name,
-        statusInfo: box.statusInfo,
-        address: box.address,
-        chartValues: box.chartValues
+        deviceType: device.deviceType,
+        name: device.name,
+        statusInfo: device.statusInfo,
+        address: device.address,
+        chartValues: device.chartValues
       };
 
-      boxMap[box.id] = boxData;
+      boxMap[device.id] = boxData;
       boxes.push(boxData);
     });
-  }
+  });
 
-  return { boxMap, boxes, canvasHeight, colWidth };
+  return {
+    boxMap,
+    boxes,
+    canvasHeight,
+    colWidth
+  };
 }
+
+
+
+// export function calculateLayout(config, canvasWidth) {
+//   const maxBoxes = Math.max(...config.columns.map(c => c.boxes.length));
+//   const canvasHeight = maxBoxes * (config.baseBoxHeight + config.boxMargin * 2);
+//   const colWidth = canvasWidth / config.columns.length;
+
+//   const boxMap = {};
+//   const boxes = [];
+
+//   for (let colIndex = 0; colIndex < config.columns.length; colIndex++) {
+//     const column = config.columns[colIndex];
+//     const colBoxes = column.boxes;
+//     const boxHeight = canvasHeight / maxBoxes;
+
+//     colBoxes.forEach((box, i) => {
+//       const x = colWidth * colIndex + config.boxMargin;
+
+//       let y;
+//       if (colIndex === 0) {
+//         if (i === 0) {
+//           y = config.boxMargin;
+//         } else {
+//           const indexFromBottom = colBoxes.length - i;
+//           const startBottom = canvasHeight - boxHeight + config.boxMargin;
+//           y = startBottom - (indexFromBottom - 1) * boxHeight;
+//         }
+//       } else {
+//         y = i * boxHeight + config.boxMargin;
+//       }
+
+//       const w = (colWidth - config.boxMargin * 2) * 0.7;
+//       const h = boxHeight - config.boxMargin * 2;
+
+//       const boxData = {
+//         id: box.id,
+//         status: box.status,
+//         layoutVariant: box.layoutVariant || "1x1",
+//         x,
+//         y,
+//         w,
+//         h,
+//         colIndex,
+//         index: i,
+//         deviceType: box.deviceType,
+//         name: box.name,
+//         statusInfo: box.statusInfo,
+//         address: box.address,
+//         chartValues: box.chartValues
+//       };
+
+//       boxMap[box.id] = boxData;
+//       boxes.push(boxData);
+//     });
+//   }
+
+//   return { boxMap, boxes, canvasHeight, colWidth };
+// }
