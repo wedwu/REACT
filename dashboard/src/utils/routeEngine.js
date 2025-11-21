@@ -1,4 +1,4 @@
-// utils/routeEngine.js
+// src/utils/routeEngine.js
 
 export function computeConnectionRoutes(config, layout) {
   const { boxMap, colWidth } = layout;
@@ -77,19 +77,21 @@ export function computeConnectionRoutes(config, layout) {
       y: endY
     };
 
+    // Midpoint Y (for the elbow segment). For now this keeps
+    // behaviour similar to the original: elbow stays at start.y.
+    const midY = start.y;
+
     // -------------------------
-    // 4. DETERMINE MIDPOINT
+    // 4. DETERMINE MIDPOINT X
     // -------------------------
     let midX;
 
     if (startCol === 0 && endCol === 1) {
       // Left fan
       midX = start.x + config.lineSpacing * conn._sourceLane;
-
     } else if (startCol === 1 && endCol === 2) {
       // Right fan
       midX = end.x - config.lineSpacing * conn._targetLane;
-
     } else {
       const dir = endCol > startCol ? 1 : -1;
       midX = start.x + dir * config.lineSpacing * (conn._sourceLane || 1);
@@ -110,6 +112,7 @@ export function computeConnectionRoutes(config, layout) {
       conn,
       start,
       midX,
+      midY,
       end,
       color: lineColor,
       isDegraded,

@@ -3,27 +3,29 @@ export const diagramConfig = {
     {
       color: '#29282e',
       boxes: [
-        { id: 'server01', status: 'up', layoutVariant: '1x1' },
-        { id: 'server02', status: 'up', layoutVariant: '1x1' },
-        { id: 'server03', status: 'up', layoutVariant: '1x1' }
+        { id: 'server01', status: 'up',   layoutVariant: '2col-25-right' },
+        { id: 'server02', status: 'up',   layoutVariant: '1x1' },
+        { id: 'server03', status: 'up',   layoutVariant: '4col-2row-special' }
       ]
     },
+
     {
       color: '#29282e',
       boxes: [
-        { id: 'server11', status: 'down', layoutVariant: '1x1' },
-        { id: 'server12', status: 'down', layoutVariant: '1x1' },
+        { id: 'server11', status: 'down', layoutVariant: '2x2-right-25' },
+        { id: 'server12', status: 'down', layoutVariant: '2x2-right-33' },
         { id: 'server13', status: 'down', layoutVariant: '1x1' },
-        { id: 'server14', status: 'down', layoutVariant: '1x1' },
-        { id: 'server15', status: 'up', layoutVariant: '1x1' },
-        { id: 'server16', status: 'up', layoutVariant: '1x1' }
+        { id: 'server14', status: 'down', layoutVariant: '2x2-right-33' },
+        { id: 'server15', status: 'up',   layoutVariant: '2x2-right-25' },
+        { id: 'server16', status: 'up',   layoutVariant: '4col-2row-special' }
       ]
     },
+
     {
       color: '#29282e',
       boxes: [
-        { id: 'server21', status: 'up', layoutVariant: '1x1' },
-        { id: 'server22', status: 'up', layoutVariant: '1x1' }
+        { id: 'server21', status: 'up',   layoutVariant: '1x1' },
+        { id: 'server22', status: 'up',   layoutVariant: '4col-2row-special' }
       ]
     }
   ],
