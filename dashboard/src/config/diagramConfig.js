@@ -3,29 +3,29 @@ export const diagramConfig = {
     {
       color: '#29282e',
       boxes: [
-        { id: 'server01', status: 'up',   layoutVariant: '2col-25-right' },
-        { id: 'server02', status: 'up',   layoutVariant: '1x1' },
-        { id: 'server03', status: 'up',   layoutVariant: '4col-2row-special' }
+        { id: 'server01', status: 'up', address: '127.0.0.1', deviceType: '', name: 'Config Server', statusInfo: '', layoutVariant: '2col-25-right', chartValues: [0.4, 0.5, 0.6, 0.3, 0.9, 0.7, 0, 0, 0, 0, 0, 0, 0, 0] },
+        { id: 'server02', status: 'up', address: '127.0.0.1', deviceType: '', name: 'Config Server', statusInfo: '', layoutVariant: '1x1', chartValues: [0.4, 0.5, 0.6, 0.3, 0.9, 0.7, 0.8, 0.8, 0.8, 0.8, 0.8] },
+        { id: 'server03', status: 'up', address: '127.0.0.1', deviceType: '', name: 'Config Server', statusInfo: '', layoutVariant: '4col-2row-special', chartValues: [0.4, 0.5, 0.6, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.9, 0.7, 0.8] }
       ]
     },
 
     {
       color: '#29282e',
       boxes: [
-        { id: 'server11', status: 'down', layoutVariant: '2x2-right-25' },
-        { id: 'server12', status: 'down', layoutVariant: '2x2-right-33' },
-        { id: 'server13', status: 'down', layoutVariant: '1x1' },
-        { id: 'server14', status: 'down', layoutVariant: '2x2-right-33' },
-        { id: 'server15', status: 'up',   layoutVariant: '2x2-right-25' },
-        { id: 'server16', status: 'up',   layoutVariant: '4col-2row-special' }
+        { id: 'server11', status: 'down', address: '127.0.0.1', deviceType: '', name: 'Config Server', statusInfo: '', layoutVariant: '2x2-right-25', chartValues: [0.4, 0.5, 0.6, 0.3, 0.9, 0.7, 0.8] },
+        { id: 'server12', status: 'down', address: '127.0.0.1', deviceType: '', name: 'Config Server', statusInfo: '', layoutVariant: '2x2-right-33', chartValues: [0.4, 0.5, 0.6, 0.3, 0.9, 0.7, 0.8] },
+        { id: 'server13', status: 'down', address: '127.0.0.1', deviceType: '', name: 'Config Server', statusInfo: '', layoutVariant: '1x1', chartValues: [0.4, 0.5, 0.6, 0.3, 0.9, 0.7, 0.8] },
+        { id: 'server14', status: 'down', address: '127.0.0.1', deviceType: '', name: 'Config Server', statusInfo: '', layoutVariant: '2x2-right-33' },
+        { id: 'server15', status: 'up', address: '127.0.0.1', deviceType: '', name: 'Config Server', statusInfo: '',   layoutVariant: '2x2-right-25', chartValues: [0.4, 0.5, 0.6, 0.3, 0.9, 0.7, 0.8] },
+        { id: 'server16', status: 'up', address: '127.0.0.1', deviceType: '', name: 'Config Server', statusInfo: '',   layoutVariant: '4col-2row-special', chartValues: [0.4, 0.5, 0.6, 0.3, 0.9, 0.7, 0.8] }
       ]
     },
 
     {
       color: '#29282e',
       boxes: [
-        { id: 'server21', status: 'up',   layoutVariant: '1x1' },
-        { id: 'server22', status: 'up',   layoutVariant: '4col-2row-special' }
+        { id: 'server21', status: 'up', address: '127.0.0.1', deviceType: '', name: 'Config Server', statusInfo: '',   layoutVariant: '1x1', chartValues: [0.4, 0.5, 0.6, 0.3, 0.9, 0.7, 0.8] },
+        { id: 'server22', status: 'up', address: '127.0.0.1', deviceType: '', name: 'Config Server', statusInfo: '',   layoutVariant: '4col-2row-special', chartValues: [0.4, 0.5, 0.6, 0.3, 0.9, 0.7, 0.8] }
       ]
     }
   ],

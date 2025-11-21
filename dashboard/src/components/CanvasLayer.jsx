@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { computeConnectionRoutes } from "../utils/routeEngine";
 
-export default function CanvasLayer({ config, layout }) {
+const CanvasLayer = ({ config, layout }) => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export default function CanvasLayer({ config, layout }) {
       // horizontal from start to elbow column
       ctx.lineTo(midX, start.y);
 
-      // ★ vertical elbow segment (non-overlapping fix)
+      // ★ vertical elbow segment
       ctx.lineTo(midX, midY);
 
       // vertical down to end level
@@ -44,12 +44,12 @@ export default function CanvasLayer({ config, layout }) {
     });
 
     // ======================================================
-    // DRAW BOX OUTLINES LAST (so they sit on top of lines)
+    // DRAW BOX OUTLINES LAST
     // ======================================================
     Object.values(boxMap).forEach(b => {
-      ctx.lineWidth = 6;
-      ctx.strokeStyle = b.status === "down" ? "#ff5242" : "#4c5e74";
-      ctx.strokeRect(b.x, b.y, b.w, b.h);
+      // ctx.lineWidth = 6;
+      // ctx.strokeStyle = b.status === "down" ? "#ff5242" : "#4c5e74";
+      // ctx.strokeRect(b.x, b.y, b.w, b.h);
     });
 
   }, [config, layout]);
@@ -68,3 +68,5 @@ export default function CanvasLayer({ config, layout }) {
     />
   );
 }
+
+export default CanvasLayer

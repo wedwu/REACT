@@ -1,7 +1,7 @@
 import React from "react";
 import { computeConnectionRoutes } from "../utils/routeEngine";
 
-export default function ElbowIcons({ config, layout }) {
+const ElbowIcons = ({ config, layout }) => {
   if (!layout) return null;
 
   // Use the exact same routing logic as CanvasLayer
@@ -32,3 +32,5 @@ export default function ElbowIcons({ config, layout }) {
     </>
   );
 }
+
+export default ElbowIcons 

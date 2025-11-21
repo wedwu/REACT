@@ -6,7 +6,7 @@ import BoxLayer from "./BoxLayer";
 import { calculateLayout } from "../utils/layoutEngine";
 import { diagramConfig } from "../config/diagramConfig";
 
-export default function DiagramContainer() {
+const DiagramContainer = () => {
   const layout = useMemo(
     () => calculateLayout(diagramConfig, 1400),
     []
@@ -33,3 +33,5 @@ export default function DiagramContainer() {
     </div>
   );
 }
+
+export default DiagramContainer

@@ -41,7 +41,12 @@ export function calculateLayout(config, canvasWidth) {
         w,
         h,
         colIndex,
-        index: i
+        index: i,
+        deviceType: box.deviceType,
+        name: box.name,
+        statusInfo: box.statusInfo,
+        address: box.address,
+        chartValues: box.chartValues
       };
 
       boxMap[box.id] = boxData;
