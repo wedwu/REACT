@@ -1,61 +1,90 @@
-import { useEffect, useRef } from "react";
+// src/components/BoxLayer.jsx
 
-export default function BoxLayer({ boxes, onBoxResize }) {
-  return (
-    <>
-      {boxes.map(box => (
-        <MeasuredBox
-          key={box.id}
-          box={box}
-          onBoxResize={onBoxResize}
-        />
-      ))}
-    </>
-  );
-}
+import React from "react";
 
-function MeasuredBox({ box, onBoxResize }) {
-  const ref = useRef(null);
+export default function BoxLayer({ cells = [], layoutVariant }) {
+  const renderCell = (content) => {
+    if (!content) return null; // FIX: Prevent blank renders
 
-  useEffect(() => {
-    if (!ref.current) return;
+    return (
+      <div
+        style={{
+          background: "#1e1d22",
+          borderRadius: 6,
+          padding: 8,
+          minHeight: 100,
+          overflow: "hidden",
+          width: "100%",
+          height: "100%",
+        }}
+      >
+        {content}
+      </div>
+    );
+  };
 
-    const el = ref.current;
+  const renderLayoutBody = () => {
+    switch (layoutVariant) {
+      case "1x1":
+        return (
+          <div style={{ display: "flex", gap: 8 }}>
+            <div style={{ flex: 1 }}>{renderCell(cells[0])}</div>
+          </div>
+        );
 
-    const observer = new ResizeObserver(entries => {
-      for (const entry of entries) {
-        onBoxResize(box.id, entry.contentRect);
-      }
-    });
+      case "2col-25-right":
+        return (
+          <div style={{ display: "flex", gap: 8 }}>
+            <div style={{ flex: 3 }}>{renderCell(cells[0])}</div>
+            <div style={{ flex: 1 }}>{renderCell(cells[1])}</div>
+          </div>
+        );
 
-    observer.observe(el);
+      case "4col-2row-special":
+        return (
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
 
-    // call immediately once
-    onBoxResize(box.id, el.getBoundingClientRect());
+            <div style={{ display: "flex", gap: 8 }}>
+              <div style={{ flex: 3 }}>{renderCell(cells[0])}</div>
+              <div style={{ flex: 1 }}>{renderCell(cells[1])}</div>
+            </div>
 
-    return () => observer.disconnect();
-  }, [box.id, onBoxResize]);
+            <div style={{ display: "flex", gap: 8 }}>
+              <div style={{ flex: 1 }}>{renderCell(cells[2])}</div>
+              <div style={{ flex: 1 }}>{renderCell(cells[3])}</div>
+              <div style={{ flex: 1 }}>{renderCell(cells[4])}</div>
+              <div style={{ flex: 1 }}>{renderCell(cells[5])}</div>
+            </div>
 
-  return (
-    <div
-      ref={ref}
-      className="dynamic-box"
-      style={{
-        left: box.x,
-        top: box.y,
-        width: box.w,
-        height: box.h,
-        border: `4px solid ${
-          box.status === "down" ? "#ff5242" : "#4c5e74"
-        }`
-      }}
-    >
-      <h3>{box.id}</h3>
-      <p>
-        Status: {box.status}<br />
-        Column: {box.colIndex + 1}<br />
-        Index: {box.index}
-      </p>
-    </div>
-  );
+          </div>
+        );
+
+      case "2x2-right-25":
+        return (
+          <div style={{ display: "flex", gap: 8 }}>
+            <div style={{ flex: 3 }}>{renderCell(cells[0])}</div>
+            <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 8 }}>
+              <div style={{ flex: 1 }}>{renderCell(cells[1])}</div>
+              <div style={{ flex: 1 }}>{renderCell(cells[2])}</div>
+            </div>
+          </div>
+        );
+
+      case "2x2-right-33":
+        return (
+          <div style={{ display: "flex", gap: 8 }}>
+            <div style={{ flex: 2 }}>{renderCell(cells[0])}</div>
+            <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 8 }}>
+              <div style={{ flex: 1 }}>{renderCell(cells[1])}</div>
+              <div style={{ flex: 1 }}>{renderCell(cells[2])}</div>
+            </div>
+          </div>
+        );
+
+      default:
+        return null;
+    }
+  };
+
+  return <div style={{ width: "100%", height: "100%" }}>{renderLayoutBody()}</div>;
 }
