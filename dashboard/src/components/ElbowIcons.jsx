@@ -1,48 +1,44 @@
-// ElbowIcons.jsx
+// src/components/ElbowIcons.jsx
 import React from "react";
-import { computeConnectionRoutes } from "../utils/routeEngine";
 
-const ElbowIcons = ({ config, layout }) => {
-  if (!layout) return null;
-
-  const routes = computeConnectionRoutes(config, layout);
+export default function ElbowIcons({ routes }) {
+  if (!routes) return null;
 
   return (
     <>
       {routes.map((route, i) => {
-        const { isDegraded, elbow } = route;
+        if (!route.isDegraded) return null;
+        if (!route.elbowIcons || route.elbowIcons.length === 0) return null;
 
-        // Only show icons for degraded connections
-        if (!isDegraded || !elbow) return null;
+        // We ONLY want the second elbow
+        const secondElbow = route.elbowIcons[0]; 
+
+        if (!secondElbow) return null;
 
         return (
           <div
             key={i}
-            className="elbow-icon"
             style={{
               position: "absolute",
-              left: elbow.x - 11,
-              top: elbow.y - 11,
-              width: 22,
-              height: 22,
-              background: "#ff5242",
-              border: "2px solid white",
-              borderRadius: "50%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: 14,
-              fontWeight: "bold",
-              zIndex: 20,
-              cursor: "pointer",
+              left: secondElbow.x - 12,
+              top: secondElbow.y - 12,
+              width: 24,
+              height: 24,
+              zIndex: 50,
+              pointerEvents: "none",
             }}
           >
-            ⚠
+            <img
+              src="/icons/elbow-warning.png"
+              alt="degraded elbow"
+              style={{
+                width: "100%",
+                height: "100%",
+              }}
+            />
           </div>
         );
       })}
     </>
   );
-};
-
-export default ElbowIcons;
+}

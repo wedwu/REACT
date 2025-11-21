@@ -77,10 +77,10 @@ export function computeConnectionRoutes(config, layout) {
       y: endY
     };
 
-    // Midpoint
+    // Midpoint (first elbow)
     const midY = start.y;
 
-    // MidX (fan)
+    // MidX (fan-out)
     let midX;
     if (startCol === 0 && endCol === 1) {
       midX = start.x + config.lineSpacing * conn._sourceLane;
@@ -101,17 +101,15 @@ export function computeConnectionRoutes(config, layout) {
 
     // -------------------------
     // ELBOW ICON SUPPORT
-    // Only show if degraded
+    // Only show ONE icon at the SECOND elbow (vertical → horizontal)
     // -------------------------
     const elbowIcons = [];
 
     if (isDegraded) {
-      // Second elbow (vertical → horizontal)
       elbowIcons.push({
         x: midX,
-        y: end.y
+        y: end.y   // second elbow
       });
-
     }
 
     // -------------------------
@@ -125,7 +123,7 @@ export function computeConnectionRoutes(config, layout) {
       end,
       color: lineColor,
       isDegraded,
-      elbowIcons,
+      elbowIcons,       // single icon at second elbow
       sourceBox: startBox,
       targetBox: endBox
     });
