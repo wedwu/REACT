@@ -1,5 +1,4 @@
 // src/utils/routeEngine.js
-
 export function computeConnectionRoutes(config, layout) {
   const { boxMap, colWidth } = layout;
   const routes = [];
@@ -7,7 +6,7 @@ export function computeConnectionRoutes(config, layout) {
   const maxLaneWidth = colWidth * 0.25;
 
   // -------------------------
-  // 1. GROUP BY SOURCE
+  // GROUP BY SOURCE
   // -------------------------
   const sourceGroups = {};
   config.connections.forEach(conn => {
@@ -27,7 +26,7 @@ export function computeConnectionRoutes(config, layout) {
   });
 
   // -------------------------
-  // 2. GROUP BY TARGET
+  // GROUP BY TARGET
   // -------------------------
   const targetGroups = {};
   config.connections.forEach(conn => {
@@ -47,17 +46,17 @@ export function computeConnectionRoutes(config, layout) {
   });
 
   // -------------------------
-  // 3. BUILD ROUTE GEOMETRY
+  // BUILD ROUTE
   // -------------------------
   config.connections.forEach(conn => {
     const startBox = boxMap[conn.from];
     const endBox = boxMap[conn.to];
-
     if (!startBox || !endBox) return;
 
     const startCol = startBox.colIndex;
     const endCol = endBox.colIndex;
 
+    // Starting point
     const start = {
       x: startBox.x + startBox.w,
       y:
@@ -66,6 +65,7 @@ export function computeConnectionRoutes(config, layout) {
           (conn._sourceIndex + 1)
     };
 
+    // Ending point
     let endY = endBox.y + endBox.h / 2;
     if (conn._targetCount > 1) {
       const spacing = endBox.h / (conn._targetCount + 1);
@@ -77,20 +77,14 @@ export function computeConnectionRoutes(config, layout) {
       y: endY
     };
 
-    // Midpoint Y (for the elbow segment). For now this keeps
-    // behaviour similar to the original: elbow stays at start.y.
+    // Midpoint
     const midY = start.y;
 
-    // -------------------------
-    // 4. DETERMINE MIDPOINT X
-    // -------------------------
+    // MidX (fan)
     let midX;
-
     if (startCol === 0 && endCol === 1) {
-      // Left fan
       midX = start.x + config.lineSpacing * conn._sourceLane;
     } else if (startCol === 1 && endCol === 2) {
-      // Right fan
       midX = end.x - config.lineSpacing * conn._targetLane;
     } else {
       const dir = endCol > startCol ? 1 : -1;
@@ -98,7 +92,7 @@ export function computeConnectionRoutes(config, layout) {
     }
 
     // -------------------------
-    // 5. DYNAMIC COLOR LOGIC
+    // COLOR + DEGRADED
     // -------------------------
     const isDegraded =
       startBox.status === "down" || endBox.status === "down";
@@ -106,7 +100,22 @@ export function computeConnectionRoutes(config, layout) {
     const lineColor = isDegraded ? "#ff5242" : "#4c5e74";
 
     // -------------------------
-    // 6. PUSH FINAL ROUTE
+    // ELBOW ICON SUPPORT
+    // Only show if degraded
+    // -------------------------
+    const elbowIcons = [];
+
+    if (isDegraded) {
+      // Second elbow (vertical → horizontal)
+      elbowIcons.push({
+        x: midX,
+        y: end.y
+      });
+
+    }
+
+    // -------------------------
+    // PUSH FINAL ROUTE
     // -------------------------
     routes.push({
       conn,
@@ -116,6 +125,7 @@ export function computeConnectionRoutes(config, layout) {
       end,
       color: lineColor,
       isDegraded,
+      elbowIcons,
       sourceBox: startBox,
       targetBox: endBox
     });
@@ -123,4 +133,3 @@ export function computeConnectionRoutes(config, layout) {
 
   return routes;
 }
-
