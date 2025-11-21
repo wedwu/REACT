@@ -1,0 +1,36 @@
+body {
+  background: #29282e;
+  font-family: sans-serif;
+  color: white;
+}
+
+.dynamic-box {
+  position: absolute;
+  background: #1e1d22;
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 5px;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.elbow-icon {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #ff5242;
+  border: 2px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+  z-index: 20;
+  transition: 0.15s ease-out;
+}
+
+.elbow-icon:hover {
+  transform: scale(1.25);
+  cursor: pointer;
+}

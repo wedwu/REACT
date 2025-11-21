@@ -1,0 +1,31 @@
+{
+  "columns": [
+    {
+      "layout": "2col-25-right",
+      "boxes": [
+        {
+          "id": "server01",
+          "status": "up",
+          "chartValues": [0.1, 0.3, 0.4, 0.8, 0.4],
+          "title": "Config Server",
+          "subtitle": "Node A",
+          "body": "Version 2.3\nActive: Yes"
+        },
+        {
+          "id": "server02",
+          "status": "down",
+          "chartValues": [0.5, 0.6, 0.1, 0, 0],
+          "title": "Message Server",
+          "subtitle": "Node B",
+          "body": "Error Rate: HIGH"
+        }
+      ]
+    }
+  ],
+  "connections": [
+    { "from": "server01", "to": "server02", "color": "#4c5e74" }
+  ],
+  "boxMargin": 12,
+  "baseBoxHeight": 140,
+  "lineSpacing": 40
+}
