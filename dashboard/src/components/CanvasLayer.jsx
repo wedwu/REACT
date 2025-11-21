@@ -35,8 +35,7 @@ const CanvasLayer = ({ config, layout }) => {
   }, [config, layout]);
 
   return (
-    <canvas
-      ref={canvasRef}
+    <canvas ref={canvasRef}
       style={{
         position: "absolute",
         left: 0,

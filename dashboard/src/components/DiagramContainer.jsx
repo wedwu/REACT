@@ -7,10 +7,7 @@ import { calculateLayout } from "../utils/layoutEngine";
 import { diagramConfig } from "../config/diagramConfig";
 
 const DiagramContainer = () => {
-  const layout = useMemo(
-    () => calculateLayout(diagramConfig, 1400),
-    []
-  );
+  const layout = useMemo(() => calculateLayout(diagramConfig, 1400), []);
 
   return (
     <div
@@ -21,15 +18,10 @@ const DiagramContainer = () => {
         margin: "0 auto"
       }}
     >
-      {layout && (
-        <>
-          {/* Canvas underlay: needs config + layout */}
+      {layout && (<>
           <CanvasLayer config={diagramConfig} layout={layout} />
-
-          {/* Div overlay: needs absolute box positions */}
           <BoxLayer boxMap={layout.boxMap} />
-        </>
-      )}
+      </>)}
     </div>
   );
 }

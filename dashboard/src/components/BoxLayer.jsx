@@ -4,15 +4,12 @@ import React from "react";
 const BoxLayer = ({ boxMap }) => {
   if (!boxMap) return null;
 
-  return (
-    <>
+  return (<>
       {Object.values(boxMap).map((box) => {
         if (!box.id) return null;
 
         return (
-          <div
-            key={box.id}
-            className="dynamic-box"
+          <div key={box.id} className="dynamic-box"
             style={{
               position: "absolute",
               left: box.x,
@@ -35,13 +32,9 @@ const BoxLayer = ({ boxMap }) => {
           </div>
         );
       })}
-    </>
-  );
+  </>);
 };
 
-// ======================================================
-// Top Header
-// ======================================================
 const TopHeader = ({ box }) => {
   const canvasRef = React.useRef(null);
 
@@ -114,10 +107,7 @@ const TopHeader = ({ box }) => {
         // borderRadius: "4px 4px 0 0",
       }}
     >
-      <canvas
-        ref={canvasRef}
-        width={260}
-        height={40}
+      <canvas ref={canvasRef} width={260} height={40}
         style={{
           width: "100%",
           height: 32,
@@ -127,9 +117,6 @@ const TopHeader = ({ box }) => {
   );
 };
 
-// ======================================================
-// Layout Variants
-// ======================================================
 function renderContent(box) {
   const variant = box.layoutVariant || "1x1";
 
@@ -150,7 +137,6 @@ function renderContent(box) {
       return (
         <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
           <TopHeader box={box} />
-
           <div style={{ display: "flex", gap: 0, flex: 1, border: `8px solid ${box.status === "down" ? "#ff5242" : "#4c5e74"}` }}>
             <div style={{ flex: 3 }}>
               <h3 style={{ marginTop: 0 }}>{box.name}</h3>
@@ -167,7 +153,6 @@ function renderContent(box) {
       return (
         <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
           <TopHeader box={box} />
-
           <div style={{ display: "flex", gap: 8 }}>
             <div style={{ flex: 3, background: "#333", borderRadius: 4 }}>
               <h3 style={{ marginTop: 0 }}>{box.name}</h3>
@@ -175,7 +160,6 @@ function renderContent(box) {
             </div>
             <div style={{ flex: 1, background: "#444", borderRadius: 4 }} />
           </div>
-
           <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
             <div style={{ flex: 1, background: "#3b3b3b", borderRadius: 4 }} />
             <div style={{ flex: 1, background: "#494949", borderRadius: 4 }} />
@@ -190,10 +174,8 @@ function renderContent(box) {
       return (
         <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
           <TopHeader box={box} />
-
           <div style={{ display: "flex", gap: 8, flex: 1 }}>
             <div style={{ flex: 3, background: "#333", borderRadius: 4 }} />
-
             <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 8 }}>
               <div style={{ flex: 1, background: "#444", borderRadius: 4 }} />
               <div style={{ flex: 1, background: "#555", borderRadius: 4 }} />
@@ -207,10 +189,8 @@ function renderContent(box) {
       return (
         <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
           <TopHeader box={box} />
-
           <div style={{ display: "flex", gap: 8, flex: 1 }}>
             <div style={{ flex: 2, background: "#333", borderRadius: 4 }} />
-
             <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 8 }}>
               <div style={{ flex: 1, background: "#444", borderRadius: 4 }} />
               <div style={{ flex: 1, background: "#555", borderRadius: 4 }} />

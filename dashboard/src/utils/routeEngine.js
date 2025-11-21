@@ -4,10 +4,6 @@ export function computeConnectionRoutes(config, layout) {
   const routes = [];
 
   const maxLaneWidth = colWidth * 0.25;
-
-  // -------------------------
-  // GROUP BY SOURCE
-  // -------------------------
   const sourceGroups = {};
   config.connections.forEach(conn => {
     if (!sourceGroups[conn.from]) sourceGroups[conn.from] = [];
@@ -25,9 +21,6 @@ export function computeConnectionRoutes(config, layout) {
     });
   });
 
-  // -------------------------
-  // GROUP BY TARGET
-  // -------------------------
   const targetGroups = {};
   config.connections.forEach(conn => {
     if (!targetGroups[conn.to]) targetGroups[conn.to] = [];
@@ -45,9 +38,6 @@ export function computeConnectionRoutes(config, layout) {
     });
   });
 
-  // -------------------------
-  // BUILD ROUTE
-  // -------------------------
   config.connections.forEach(conn => {
     const startBox = boxMap[conn.from];
     const endBox = boxMap[conn.to];
@@ -91,30 +81,18 @@ export function computeConnectionRoutes(config, layout) {
       midX = start.x + dir * config.lineSpacing * (conn._sourceLane || 1);
     }
 
-    // -------------------------
-    // COLOR + DEGRADED
-    // -------------------------
-    const isDegraded =
-      startBox.status === "down" || endBox.status === "down";
+    const isDegraded = startBox.status === "down" || endBox.status === "down";
 
     const lineColor = isDegraded ? "#ff5242" : "#4c5e74";
-
-    // -------------------------
-    // ELBOW ICON SUPPORT
-    // Only show ONE icon at the SECOND elbow (vertical → horizontal)
-    // -------------------------
     const elbowIcons = [];
 
     if (isDegraded) {
       elbowIcons.push({
         x: midX,
-        y: end.y   // second elbow
+        y: end.y
       });
     }
 
-    // -------------------------
-    // PUSH FINAL ROUTE
-    // -------------------------
     routes.push({
       conn,
       start,
@@ -123,7 +101,7 @@ export function computeConnectionRoutes(config, layout) {
       end,
       color: lineColor,
       isDegraded,
-      elbowIcons,       // single icon at second elbow
+      elbowIcons,
       sourceBox: startBox,
       targetBox: endBox
     });
